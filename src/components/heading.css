@@ -1,0 +1,51 @@
+/* Define the fade-in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Define a scale-up animation */
+@keyframes scaleUp {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Apply the animation to the element */
+.fade-in {
+  animation: scaleUp 2s ease-out;
+}
+
+/* Define the typing effect animation */
+@keyframes typing {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* Typing effect class */
+.typing-effect {
+  border-right: 2px solid rgba(255, 255, 255, 0.75); /* Cursor effect */
+  white-space: nowrap; 
+  overflow: hidden;
+  width: 0; /* Ensure initial width is 0 */
+  animation: typing 3s steps(30) infinite,
+             blink 0.75s step-end infinite;
+}
+
+/* Apply the font to the body */
+body {
+  font-family: 'Poppins', sans-serif;
+}
