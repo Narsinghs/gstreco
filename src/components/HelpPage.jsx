@@ -79,6 +79,7 @@ const HelpPage = () => {
                 />
               </div>
               <div>
+            
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700">Message</label>
                 <textarea
                   id="message"
