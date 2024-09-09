@@ -12,6 +12,7 @@ import Ap_Redeem from "./pages/Ap_Redeem";
 import Gst_form from "./pages/Gst_form";
 import Pricing from "./components/Pricing";
 import Heading from "./components/Heading"; 
+import HelpPage from "./components/HelpPage";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -33,6 +34,7 @@ function App() {
             <Route path="/gst_form" element={<Gst_form />} />
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/heading" element={<Heading/>} />
+            <Route path="/HelpPage" element={<HelpPage />} />
           
              </Routes>
         </div>

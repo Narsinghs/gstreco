@@ -117,7 +117,7 @@ export default function Sidebar() {
               {isSidebarOpen && <span className="ml-2">Profile</span>}
             </Link>
             <Link
-              to="/help"
+              to="/HelpPage"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/help')}`}
             >
               <BiHelpCircle className="text-xl" />

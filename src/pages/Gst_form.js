@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "../components/Sidebar";
 
 export default function Gst_Form() {
   const [formData, setFormData] = useState({});
   const [submissionStatus, setSubmissionStatus] = useState("");
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    // Check if all required fields are filled
+    const allFieldsFilled = Object.values(formData).every(value => value !== '');
+    setIsFormValid(allFieldsFilled);
+  }, [formData]);
 
   const handleChange = (e) => {
     setFormData({
@@ -14,9 +23,10 @@ export default function Gst_Form() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmissionStatus("Submitting...");
+    toast.info("Submitting...", { autoClose: false });
 
     try {
+      // Trigger Jenkins job
       const response = await fetch('http://localhost:5000/api/runJenkinsJob', {
         method: 'POST',
         headers: {
@@ -26,13 +36,21 @@ export default function Gst_Form() {
       });
 
       if (response.ok) {
-        setSubmissionStatus("Job triggered successfully!");
+        const responseText = await response.text();
+        toast.dismiss(); // Dismiss the previous toast
+        toast.success(responseText);
+        // Delay showing the email verification message by 1 minute (60000 ms)
+      setTimeout(() => {
+        toast.info('A verification email has been sent to you.');
+      }, 60000);
       } else {
         const errorText = await response.text();
-        setSubmissionStatus(`Failed to trigger job: ${errorText}`);
+        toast.dismiss(); // Dismiss the previous toast
+        toast.error(`Failed to trigger job: ${errorText}`);
       }
     } catch (error) {
-      setSubmissionStatus(`Error occurred: ${error.message}`);
+      toast.dismiss(); // Dismiss the previous toast
+      toast.error(`Error occurred: ${error.message}`);
     }
   };
 
@@ -62,7 +80,7 @@ export default function Gst_Form() {
     "toDate1",
     "userNameLaptop",
     "senderTo",
-    "taxation"
+    "taxation",
   ];
 
   return (
@@ -84,6 +102,7 @@ export default function Gst_Form() {
                     value={formData[field] || ''}
                     onChange={handleChange}
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    required
                   />
                 ) : (
                   <input
@@ -92,6 +111,7 @@ export default function Gst_Form() {
                     value={formData[field] || ''}
                     onChange={handleChange}
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    required
                   />
                 )}
               </div>
@@ -107,6 +127,7 @@ export default function Gst_Form() {
               <button
                 type="submit"
                 className="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4"
+                disabled={!isFormValid}
               >
                 Submit
               </button>
@@ -115,6 +136,7 @@ export default function Gst_Form() {
           {submissionStatus && <p className="text-center mt-4">{submissionStatus}</p>}
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
