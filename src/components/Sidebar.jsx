@@ -84,31 +84,13 @@ export default function Sidebar() {
               <HiViewGrid className="text-xl" />
               {isSidebarOpen && <span className="ml-2">How to use</span>}
             </Link>
-            <div
-              className={`flex flex-col space-y-2 mb-4 ${isSidebarOpen ? "" : "justify-center"}`}
+            <Link
+              to="/Gst_Form"
+              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/Gst_Form')}`}
             >
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation')}`}
-              >
-                <CiCalculator2 className="text-xl " />
-                {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
-              </button>
-              <div className={`flex flex-col pl-6 ${isSidebarOpen ? (isDropdownOpen ? "block" : "hidden") : "hidden"}`}>
-                <Link
-                  to="/Gst_Form"
-                  className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation/myob')}`}
-                >
-                  <span className="ml-2">MYOB</span>
-                </Link>
-                <Link
-                  to="/gst_reconciliation/xero"
-                  className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation/xero')}`}
-                >
-                  <span className="ml-2">Xero</span>
-                </Link>
-              </div>
-            </div>
+              <CiCalculator2 className="text-xl" />
+              {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
+            </Link>
             <Link
               to="/acc_profile"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_profile')}`}

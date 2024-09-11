@@ -2,14 +2,59 @@ import React, { useState, useEffect } from "react";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "../components/Sidebar";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Gst_Form() {
   const [formData, setFormData] = useState({});
   const [submissionStatus, setSubmissionStatus] = useState("");
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedForm, setSelectedForm] = useState("xero");
+  const [showPassword, setShowPassword] = useState({});
+
+  const xeroFields = [
+    { name: "ATO_Id", hint: "Enter Xero username" },
+    { name: "Client_Name", hint: "Enter client name" },
+    { name: "From", hint: "Start date of the period" },
+    { name: "To", hint: "End date of the period" },
+    { name: "July_September_Quarter", hint: "July quarter details" },
+    { name: "October_December_Quarter", hint: "October quarter details" },
+    { name: "January_March_Quarter", hint: "January quarter details" },
+    { name: "April_June_Quarter", hint: "April quarter details" },
+    { name: "XERO_Id", hint: "Enter your username" },
+    { name: "XERO_Password", hint: "Enter your password" },
+    { name: "Security_Question_1", hint: "First security question" },
+    { name: "Security_Answer_1", hint: "Answer to the first security question" },
+    { name: "Security_Question_2", hint: "Second security question" },
+    { name: "Security_Answer_2", hint: "Answer to the second security question" },
+    { name: "Security_Question_3", hint: "Third security question" },
+    { name: "Security_Answer_3", hint: "Answer to the third security question" },
+    { name: "User_Name", hint: "Username for laptop" },
+    { name: "Email_Id", hint: "Recipient of the sender" },
+  ];
+
+  const myobFields = [
+    { name: "ATO_Id", hint: "Enter Xero username" },
+    { name: "Client_Name", hint: "Enter client name" },
+    { name: "From", hint: "Start date of the period" },
+    { name: "To", hint: "End date of the period" },
+    { name: "July-September_Quarter", hint: "July quarter details" },
+    { name: "October-December_Quarter", hint: "October quarter details" },
+    { name: "January-March_Quarter", hint: "January quarter details" },
+    { name: "April-June_Quarter", hint: "April quarter details" },
+    { name: "Myob_Id", hint: "Enter your username" },
+    { name: "Myob_Password", hint: "Enter your password" },
+    { name: "Security_Question_1", hint: "First security question for Myob" },
+    { name: "Security_Answer_1", hint: "Answer to the first security question for Myob" },
+    { name: "Security_Question_2", hint: "Second security question for Myob" },
+    { name: "Security_Answer_2", hint: "Answer to the second security question for Myob" },
+    { name: "Security_Question_3", hint: "Third security question for Myob" },
+    { name: "Security_Answer_3", hint: "Answer to the third security question for Myob" },
+    { name: "User_Name", hint: "Username for laptop" },
+    { name: "Email_Id", hint: "Recipient of the sender" },
+  ];
 
   useEffect(() => {
-    // Check if all required fields are filled
     const allFieldsFilled = Object.values(formData).every(value => value !== '');
     setIsFormValid(allFieldsFilled);
   }, [formData]);
@@ -24,33 +69,41 @@ export default function Gst_Form() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     toast.info("Submitting...", { autoClose: false });
+    setIsLoading(true);
 
     try {
-      // Trigger Jenkins job
       const response = await fetch('http://localhost:5000/api/runJenkinsJob', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          formData,
+          formType: selectedForm,
+        }),
       });
 
       if (response.ok) {
         const responseText = await response.text();
-        toast.dismiss(); // Dismiss the previous toast
+        toast.dismiss();
         toast.success(responseText);
-        // Delay showing the email verification message by 1 minute (60000 ms)
-      setTimeout(() => {
-        toast.info('A verification email has been sent to you.');
-      }, 60000);
+        setSubmissionStatus('Submission successful');
+
+        setTimeout(() => {
+          toast.info('A verification email has been sent to you.');
+        }, 60000);
       } else {
         const errorText = await response.text();
-        toast.dismiss(); // Dismiss the previous toast
+        toast.dismiss();
         toast.error(`Failed to trigger job: ${errorText}`);
+        setSubmissionStatus('Submission failed');
       }
     } catch (error) {
-      toast.dismiss(); // Dismiss the previous toast
+      toast.dismiss();
       toast.error(`Error occurred: ${error.message}`);
+      setSubmissionStatus('Submission error');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -59,81 +112,133 @@ export default function Gst_Form() {
     setSubmissionStatus("");
   };
 
-  const fields = [
-    "userName1",
-    "clientName",
-    "fromDate",
-    "toDate",
-    "julyQuarter",
-    "octQuarter",
-    "janQuarter",
-    "aprQuarter",
-    "userName",
-    "password",
-    "securityQuest1",
-    "securityAns1",
-    "securityQuest2",
-    "securityAns2",
-    "securityQuest3",
-    "securityAns3",
-    "fromDate1",
-    "toDate1",
-    "userNameLaptop",
-    "senderTo",
-    "taxation",
-  ];
+  const getFields = () => {
+    return selectedForm === "xero" ? xeroFields : myobFields;
+  };
+
+  const formatFieldName = (fieldName) => {
+    return fieldName
+      .replace(/_/g, ' ')
+      .replace(/\b\w/g, char => char.toUpperCase());
+  };
+
+  const handlePasswordVisibility = (fieldName) => {
+    setShowPassword(prevState => ({
+      ...prevState,
+      [fieldName]: !prevState[fieldName]
+    }));
+  };
 
   return (
-    <div className="flex flex-col overflow-hidden bg-gray-300">
-      <Sidebar/>
+    <div className="flex flex-col min-h-screen bg-white">
+      <Sidebar />
       <div className="flex-grow flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-md">
-          <h1 className="text-xl font-bold text-center mb-6">GST Reconciliation Form</h1>
+        <div className="w-full max-w-4xl bg-gray-200 p-8 shadow-lg rounded-lg">
+          <h1 className="text-2xl font-bold text-center mb-6">
+            {selectedForm === "xero" ? "Xero GST Reconciliation Form" : "MYOB GST Reconciliation Form"}
+          </h1>
+
+          <div className="flex justify-center mb-6">
+            <button
+              type="button"
+              className={`py-2 px-4 mx-2 ${selectedForm === "xero" ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-800"} rounded`}
+              onClick={() => {
+                setSelectedForm("xero");
+                setFormData({});
+              }}
+            >
+              Xero Form
+            </button>
+            <button
+              type="button"
+              className={`py-2 px-4 mx-2 ${selectedForm === "myob" ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-800"} rounded`}
+              onClick={() => {
+                setSelectedForm("myob");
+                setFormData({});
+              }}
+            >
+              MYOB Form
+            </button>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-6">
-            {fields.map((field, index) => (
-              <div key={index} className="mb-4">
-                <label className="block text-sm font-medium text-gray-700">
-                  {field.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-                </label>
-                {field.toLowerCase().includes("date") ? (
-                  <input
-                    type="date"
-                    name={field}
-                    value={formData[field] || ''}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                  />
-                ) : (
-                  <input
-                    type="text"
-                    name={field}
-                    value={formData[field] || ''}
-                    onChange={handleChange}
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
-                    required
-                  />
-                )}
-              </div>
-            ))}
-            <div className="flex justify-center">
-              <button
-                type="button"
-                className="bg-gray-400 hover:bg-gray-500 text-white py-2 px-4 mr-4"
-                onClick={handleReset}
-              >
-                Cancel
-              </button>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {getFields().map((fieldObj, index) => (
+                <div key={index} className="flex flex-col relative">
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    {formatFieldName(fieldObj.name)}
+                  </label>
+                  {fieldObj.name === "From" || fieldObj.name === "To" ? (
+                    <input
+                      type="date"
+                      name={fieldObj.name}
+                      value={formData[fieldObj.name] || ''}
+                      onChange={handleChange}
+                      placeholder={fieldObj.hint}
+                      className="p-2 block w-full border border-gray-300 rounded-md"
+                      required
+                    />
+                  ) : fieldObj.name.toLowerCase().includes("password") ? (
+                    <div className="relative">
+                      <input
+                        type={showPassword[fieldObj.name] ? "text" : "password"}
+                        name={fieldObj.name}
+                        value={formData[fieldObj.name] || ''}
+                        onChange={handleChange}
+                        placeholder={fieldObj.hint}
+                        className="p-2 block w-full border border-gray-300 rounded-md"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handlePasswordVisibility(fieldObj.name)}
+                        className="absolute inset-y-0 right-0 px-3 flex items-center"
+                      >
+                        {showPassword[fieldObj.name] ? (
+                          <FaEye className="w-5 h-5 text-gray-600" />
+                        ) : (
+                          <FaEyeSlash className="w-5 h-5 text-gray-600" />
+                        )}
+                      </button>
+                    </div>
+                  ) : (
+                    <input
+                      type="text"
+                      name={fieldObj.name}
+                      value={formData[fieldObj.name] || ''}
+                      onChange={handleChange}
+                      placeholder={fieldObj.hint}
+                      className="p-2 block w-full border border-gray-300 rounded-md"
+                      required
+                    />
+                  )}
+                </div>
+              ))}
+            </div>
+
+            <div className="flex justify-between">
               <button
                 type="submit"
-                className="bg-gray-600 hover:bg-gray-700 text-white py-2 px-4"
-                disabled={!isFormValid}
+                className={`py-2 px-4 ${isFormValid ? "bg-blue-500 text-white" : "bg-blue-200 text-gray-600"} rounded`}
+                disabled={!isFormValid || isLoading}
               >
-                Submit
+                {isLoading ? "Submitting..." : "Submit"}
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="py-2 px-4 bg-gray-500 text-white rounded"
+              >
+                Reset
               </button>
             </div>
           </form>
-          {submissionStatus && <p className="text-center mt-4">{submissionStatus}</p>}
+
+          {submissionStatus && (
+            <div className="mt-4 text-center text-lg font-semibold">
+              {submissionStatus}
+            </div>
+          )}
         </div>
       </div>
       <ToastContainer />

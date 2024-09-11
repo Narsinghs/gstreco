@@ -1,15 +1,20 @@
-const http = require('http');
+require('dotenv').config();
+const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
-const express = require('express');
 const bodyParser = require('body-parser');
 const { URLSearchParams } = require('url');
 
 const PORT = 5000;
 
-// Hard-coded Jenkins credentials
-const JENKINS_USERNAME = 'admin';
-const JENKINS_API_TOKEN = '1198c8842726832bf31d7f065fc5d2f06a';
+// Retrieve Jenkins credentials from environment variables
+const JENKINS_USERNAME = process.env.JENKINS_USERNAME;
+const JENKINS_API_TOKEN = process.env.JENKINS_API_TOKEN;
+
+if (!JENKINS_USERNAME || !JENKINS_API_TOKEN) {
+  console.error('Jenkins credentials are missing in environment variables');
+  process.exit(1);
+}
 
 // Create an Express app
 const app = express();
@@ -26,12 +31,22 @@ app.use(bodyParser.json());
 
 // Endpoint to trigger Jenkins job
 app.post('/api/runJenkinsJob', async (req, res) => {
-  const formData = req.body;
+  const { formData, formType } = req.body;
 
   // Convert JSON payload to URL-encoded format
   const urlEncodedData = new URLSearchParams(formData).toString();
+  console.log('Sending to Jenkins:', urlEncodedData);
 
-  const jenkinsUrl = 'https://jenkins.theoutsourcepro.com.au/job/Gst_param/buildWithParameters';
+  // Define Jenkins job URLs based on form type
+  const jenkinsUrl = formType === "xero"
+    ? 'https://jenkins.theoutsourcepro.com.au/job/Xero/buildWithParameters'
+    : formType === "myob"
+    ? 'https://jenkins.theoutsourcepro.com.au/job/myob-job/buildWithParameters'
+    : null;
+
+  if (!jenkinsUrl) {
+    return res.status(400).send('Invalid form type');
+  }
 
   try {
     const response = await axios.post(jenkinsUrl, urlEncodedData, {
@@ -41,13 +56,15 @@ app.post('/api/runJenkinsJob', async (req, res) => {
       }
     });
 
+    console.log('Jenkins response:', response.status, response.data);
+
     if (response.status === 201) {
       res.status(200).send('Job triggered successfully');
     } else {
       res.status(response.status).send('Failed to trigger job');
     }
   } catch (error) {
-    console.error('Error triggering Jenkins job:', error);
+    console.error('Error triggering Jenkins job:', error.message);
     res.status(500).send('Error occurred while triggering Jenkins job');
   }
 });
