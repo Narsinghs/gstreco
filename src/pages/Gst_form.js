@@ -17,11 +17,11 @@ export default function Gst_Form() {
     { name: "Client_Name", hint: "Enter client name" },
     { name: "From", hint: "Start date of the period" },
     { name: "To", hint: "End date of the period" },
-    { name: "July_September_Quarter", hint: "July quarter details" },
-    { name: "October_December_Quarter", hint: "October quarter details" },
-    { name: "January_March_Quarter", hint: "January quarter details" },
-    { name: "April_June_Quarter", hint: "April quarter details" },
-    { name: "XERO_Id", hint: "Enter your username" },
+    { name: "July_September_Quarter", hint: "Jul 2022 – Sep 2022 Business activity statement" },
+    { name: "October_December_Quarter", hint: "Oct 2022 – Dec 2022 Business activity statement" },
+    { name: "January_March_Quarter", hint: "Jan 2023 – Mar 2023 Business activity statement" },
+    { name: "April_June_Quarter", hint: "Apr 2023 – Jun 2023 Business activity statement" },
+    { name: "XERO_Id", hint: "Enter your Xero Id" },
     { name: "XERO_Password", hint: "Enter your password" },
     { name: "Security_Question_1", hint: "First security question" },
     { name: "Security_Answer_1", hint: "Answer to the first security question" },
@@ -34,7 +34,7 @@ export default function Gst_Form() {
   ];
 
   const myobFields = [
-    { name: "ATO_Id", hint: "Enter Xero username" },
+    { name: "ATO_Id", hint: "Enter Myob username" },
     { name: "Client_Name", hint: "Enter client name" },
     { name: "From", hint: "Start date of the period" },
     { name: "To", hint: "End date of the period" },
@@ -130,7 +130,7 @@ export default function Gst_Form() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white ">
       <Sidebar />
       <div className="flex-grow flex items-center justify-center px-4 py-8">
         <div className="w-full max-w-4xl bg-gray-200 p-8 shadow-lg rounded-lg">
@@ -139,26 +139,36 @@ export default function Gst_Form() {
           </h1>
 
           <div className="flex justify-center mb-6">
-            <button
-              type="button"
-              className={`py-2 px-4 mx-2 ${selectedForm === "xero" ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-800"} rounded`}
-              onClick={() => {
-                setSelectedForm("xero");
-                setFormData({});
-              }}
-            >
-              Xero Form
-            </button>
-            <button
-              type="button"
-              className={`py-2 px-4 mx-2 ${selectedForm === "myob" ? "bg-gray-600 text-white" : "bg-gray-300 text-gray-800"} rounded`}
-              onClick={() => {
-                setSelectedForm("myob");
-                setFormData({});
-              }}
-            >
-              MYOB Form
-            </button>
+            <div className="flex items-center mx-4">
+              <input
+                type="radio"
+                id="xero"
+                name="formType"
+                value="xero"
+                checked={selectedForm === "xero"}
+                onChange={() => {
+                  setSelectedForm("xero");
+                  setFormData({});
+                }}
+                className="mr-2"
+              />
+              <label htmlFor="xero" className="text-gray-700">Xero</label>
+            </div>
+            <div className="flex items-center mx-4">
+              <input
+                type="radio"
+                id="myob"
+                name="formType"
+                value="myob"
+                checked={selectedForm === "myob"}
+                onChange={() => {
+                  setSelectedForm("myob");
+                  setFormData({});
+                }}
+                className="mr-2"
+              />
+              <label htmlFor="myob" className="text-gray-700">MYOB</label>
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">

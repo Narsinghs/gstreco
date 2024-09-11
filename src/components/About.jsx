@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import Image from "../assets/tesm.png";
+import Image from "../assets/Topclan.png";
 
 
 export default function About() {

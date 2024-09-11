@@ -3,8 +3,10 @@ import DataCollectionImage from "../assets/Datacollection.png";
 import ReportingImage from "../assets/reporting.png";
 import ReconciliationImage from "../assets/Reconsilation.png";
 import ComplianceImage from "../assets/compliance.png";
+import SecurityImage from "../assets/Security.png"; // Import the security image
 import '@fontsource/poppins'; // Defaults to weight 400
 import './Howitworks.css';
+import { Link } from "react-router-dom";
 
 export default function HowItWorks() {
   useEffect(() => {
@@ -100,14 +102,31 @@ export default function HowItWorks() {
           </div>
         </div>
 
+        {/* Security Section */}
+        <div className="flex flex-col md:flex-row items-center justify-between mb-16 fade-in-section">
+          <div className="text-black md:w-1/2 md:mr-10">
+            <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>
+              Security
+            </h3>
+            <p className="text-lg">
+              We ensure that your data is secure through robust encryption and compliance with the latest security standards.
+            </p>
+          </div>
+          <div className="md:w-1/2">
+            <img src={SecurityImage} alt="Security" className="w-full max-w-xs object-contain rounded-lg shadow-lg" />
+          </div>
+        </div>
+
         {/* Summary Section */}
         <div className="text-black text-center mt-16 fade-in-section">
           <p className="text-lg max-w-3xl mx-auto mb-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
             Our streamlined GST Reconciliation process ensures your business data is accurately matched, discrepancies are swiftly identified, and compliance is maintained. We handle everything from data collection to filing, making GST management hassle-free for you.
           </p>
-          <button className="bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
-            Get Started for Free
-          </button>
+          <Link to="/sign-in">
+            <button className="bg-blue-500 text-white font-bold py-3 px-8 rounded-full transition-transform duration-300 ease-in-out hover:scale-105">
+              Get Started 
+            </button>
+          </Link>
         </div>
       </div>
     </div>
