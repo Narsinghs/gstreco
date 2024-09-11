@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Image from "../assets/signin.png";
+import Image from "../assets/Login.gif";
 import { FaMicrosoft, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
@@ -128,11 +128,11 @@ export default function Signin() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden bg-gray-200">
+    <div className="flex flex-col min-h-screen overflow-hidden bg-white">
       <Navbar />
       <div className="flex justify-center mt-10 items-center flex-grow">
         <div className="w-full md:w-1/2 p-5 flex justify-center">
-          <div className="w-full max-w-md bg-gray-140 rounded-lg shadow-lg p-5">
+          <div className="w-full max-w-md bg-gray-300 rounded-lg shadow-lg p-5">
             {isResettingPassword ? (
               <div>
                 <h1 className="text-2xl font-bold mb-4 text-center">Reset Password</h1>

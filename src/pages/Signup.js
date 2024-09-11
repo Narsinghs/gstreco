@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Image from "../assets/signup.png";
+import Image from "../assets/Sign up.gif";
 import PasswordStrengthIndicator from "../components/PasswordStrengthIndicator";
 import { FaMicrosoft, FaGoogle } from "react-icons/fa";
 import { Link as RouterLink } from "react-router-dom";
@@ -159,11 +159,11 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen overflow-hidden bg-gray-200">
+    <div className="flex flex-col min-h-screen overflow-hidden bg-white">
       <Navbar />
       <div className="flex justify-center items-center mt-10 flex-grow">
         <div className="w-full md:w-1/2 p-5 flex justify-center">
-          <div className="w-full max-w-[700px] bg-gray-150 rounded-md shadow-md p-6">
+          <div className="w-full max-w-[500px] bg-gray-300 rounded-md shadow-md p-6">
             <h1 className="text-3xl font-bold text-center mb-6">Sign Up</h1>
             <form className="space-y-6" onSubmit={handleSignup}>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -308,7 +308,7 @@ export default function Signup() {
           <img
             src={Image}
             alt="illustration"
-            className="w-full h-auto object-cover max-w-md rounded-lg"
+            className="w-full h-auto object-cover max-w-[600px] rounded-lg"
             style={{ borderRadius: "50px" }}  
           />
         </div>

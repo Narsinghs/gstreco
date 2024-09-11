@@ -4,8 +4,6 @@ const cors = require('cors');
 const express = require('express');
 const bodyParser = require('body-parser');
 const { URLSearchParams } = require('url');
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 const PORT = 5000;
 

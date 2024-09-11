@@ -49,7 +49,7 @@ const HelpPage = () => {
               </li>
               <li>
                 <h4 className="text-lg font-medium text-gray-700">How can I contact support?</h4>
-                <p className="text-gray-600">You can contact support via the form below or email us directly at <a href="mailto:topadmin@theoutsourcepro.com.au" className="text-indigo-600 hover:underline">topadmin@theoutsourcepro.com.au</a></p>
+                <p className="text-gray-600">You can contact support via the form below or email us directly at <a href="mailto:toptechsupport@theoutsourcepro.com.au" className="text-indigo-600 hover:underline">toptechsupport@theoutsourcepro.com.au</a></p>
               </li>
             </ul>
           </section>

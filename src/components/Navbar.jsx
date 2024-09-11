@@ -96,14 +96,14 @@ export default function Navbar() {
                 <ul className="absolute left-0 mt-2 w-40 bg-white shadow-lg rounded-lg z-30">
                   <li>
                     <RouterLink
-                      to="/product-1"
+                      to="/GstReconciliationPage"
                       className="block px-4 py-2 hover:bg-gray-200"
                       onClick={closeMenu}
                     >
-                      Product 1
+                      Gst Reconciliation
                     </RouterLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <RouterLink
                       to="/product-2"
                       className="block px-4 py-2 hover:bg-gray-200"
@@ -120,7 +120,7 @@ export default function Navbar() {
                     >
                       Product 3
                     </RouterLink>
-                  </li>
+                  </li> */}
                 </ul>
               )}
             </li>
@@ -257,14 +257,14 @@ export default function Navbar() {
                 <ul className="mt-2">
                   <li>
                     <RouterLink
-                      to="/product-1"
+                      to="/GstReconciliationPage"
                       className="block px-4 py-2 hover:bg-gray-200"
                       onClick={closeMenu}
                     >
-                      Product 1
+                       Gst Reconciliation
                     </RouterLink>
                   </li>
-                  <li>
+                  {/* <li>
                     <RouterLink
                       to="/product-2"
                       className="block px-4 py-2 hover:bg-gray-200"
@@ -281,7 +281,7 @@ export default function Navbar() {
                     >
                       Product 3
                     </RouterLink>
-                  </li>
+                  </li> */}
                 </ul>
               )}
             </li>

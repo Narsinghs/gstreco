@@ -13,6 +13,7 @@ import Gst_form from "./pages/Gst_form";
 import Pricing from "./components/Pricing";
 import Heading from "./components/Heading"; 
 import HelpPage from "./components/HelpPage";
+// import GSTReconciliationPage from "./components/GSTReconciliationPage";
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -35,6 +36,7 @@ function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/heading" element={<Heading/>} />
             <Route path="/HelpPage" element={<HelpPage />} />
+            {/* <Route path="/GSTReconciliationPage" element={<GSTReconciliationPage />} /> */}
           
              </Routes>
         </div>
