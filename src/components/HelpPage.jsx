@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import emailjs from 'emailjs-com';
+import Sidebar from './Sidebar';
 
 const HelpPage = () => {
   const [email, setEmail] = useState('');
@@ -33,6 +34,7 @@ const HelpPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-700 py-12 px-4 sm:px-6 lg:px-8">
+      <Sidebar />
       <div className="max-w-3xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-6">
           <h2 className="text-3xl font-bold text-gray-900 mb-6">Help Center</h2>

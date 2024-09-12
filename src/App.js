@@ -14,9 +14,11 @@ import Pricing from "./components/Pricing";
 import Heading from "./components/Heading"; 
 import HelpPage from "./components/HelpPage";
 // import GSTReconciliationPage from "./components/GSTReconciliationPage";
+import GSTReconciliationProduct from './components/GSTReconciliationProduct';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import RequestDemoPage from "./components/RequestDemoPage";
 
 function App() {
   return (
@@ -36,8 +38,10 @@ function App() {
             <Route path="/pricing" element={<Pricing />} />
             <Route path="/heading" element={<Heading/>} />
             <Route path="/HelpPage" element={<HelpPage />} />
+            <Route path="/gst-reconciliation" element={<GSTReconciliationProduct />} />
             {/* <Route path="/GSTReconciliationPage" element={<GSTReconciliationPage />} /> */}
-          
+            <Route path="/request-demo" element={<RequestDemoPage />} />
+            
              </Routes>
         </div>
         <Footer />

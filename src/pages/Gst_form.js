@@ -3,6 +3,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Sidebar from "../components/Sidebar";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import backgroundImage from '../assets/formsimage.jpeg';
 
 export default function Gst_Form() {
   const [formData, setFormData] = useState({});
@@ -129,17 +130,31 @@ export default function Gst_Form() {
     }));
   };
 
+  const backgroundStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+  };
+  const formStyle = {
+    backgroundColor: 'rgba(255, 255, 255, 0.95)', // Adjust opacity here (0.8 means 80% opacity)
+  };
+
+  const labelStyle = {
+    fontWeight: 'bold', // Make label text bold
+    // marginBottom: '0.5rem' // Spacing below the label
+  };
+
   return (
-    <div className="flex flex-col min-h-screen bg-white ">
+    <div className="flex flex-col min-h-screen bg-white" style={backgroundStyle}>
       <Sidebar />
       <div className="flex-grow flex items-center justify-center px-4 py-8">
-        <div className="w-full max-w-4xl bg-gray-200 p-8 shadow-lg rounded-lg">
+        <div className="w-full max-w-4xl bg-gray-400 p-8 shadow-lg rounded-lg" style={formStyle}>
           <h1 className="text-2xl font-bold text-center mb-6">
             {selectedForm === "xero" ? "Xero GST Reconciliation Form" : "MYOB GST Reconciliation Form"}
           </h1>
 
           <div className="flex justify-center mb-6">
-            <div className="flex items-center mx-4">
+            <div className="flex items-center mx-4" style={labelStyle}>
               <input
                 type="radio"
                 id="xero"
@@ -150,11 +165,11 @@ export default function Gst_Form() {
                   setSelectedForm("xero");
                   setFormData({});
                 }}
-                className="mr-2"
+                className="mr-2 text-black"
               />
-              <label htmlFor="xero" className="text-gray-700">Xero</label>
+              <label htmlFor="xero" className="text-black"> Xero</label>
             </div>
-            <div className="flex items-center mx-4">
+            <div className="flex items-center mx-4" style={labelStyle}>
               <input
                 type="radio"
                 id="myob"
@@ -167,15 +182,15 @@ export default function Gst_Form() {
                 }}
                 className="mr-2"
               />
-              <label htmlFor="myob" className="text-gray-700">MYOB</label>
+              <label htmlFor="myob" className="text-black">MYOB</label>
             </div>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
               {getFields().map((fieldObj, index) => (
                 <div key={index} className="flex flex-col relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                  <label className="block text-sm font-full text-black mb-1" style={labelStyle}>
                     {formatFieldName(fieldObj.name)}
                   </label>
                   {fieldObj.name === "From" || fieldObj.name === "To" ? (
@@ -185,7 +200,7 @@ export default function Gst_Form() {
                       value={formData[fieldObj.name] || ''}
                       onChange={handleChange}
                       placeholder={fieldObj.hint}
-                      className="p-2 block w-full border border-gray-300 rounded-md"
+                      className="p-2 block w-full border border-gray-400 rounded-md"
                       required
                     />
                   ) : fieldObj.name.toLowerCase().includes("password") ? (
@@ -196,7 +211,7 @@ export default function Gst_Form() {
                         value={formData[fieldObj.name] || ''}
                         onChange={handleChange}
                         placeholder={fieldObj.hint}
-                        className="p-2 block w-full border border-gray-300 rounded-md"
+                        className="p-2 block w-full border border-gray-400 rounded-md"
                         required
                       />
                       <button
@@ -218,7 +233,7 @@ export default function Gst_Form() {
                       value={formData[fieldObj.name] || ''}
                       onChange={handleChange}
                       placeholder={fieldObj.hint}
-                      className="p-2 block w-full border border-gray-300 rounded-md"
+                      className="p-2 block w-full border border-gray-400 rounded-md"
                       required
                     />
                   )}

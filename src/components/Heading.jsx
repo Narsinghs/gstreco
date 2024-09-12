@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "../assets/background1.png";
 import './heading.css'; // Import your custom CSS file
-
+import { Link as RouterLink } from "react-router-dom";
 export default function Heading() {
   return (
     <div
@@ -20,9 +20,11 @@ export default function Heading() {
           the complex process, ensuring your business remains compliant, accurate, and stress-free.
         </div>
         <div>
+          <RouterLink to="/request-demo" >
             <button className="bg-black border-2 border-black px-3 py-2 sm:px-4 sm:py-3 md:px-5 md:py-3 rounded text-white hover:bg-gray-800 transition-colors duration-300 ease-in-out">
             Request Demo
             </button>
+          </RouterLink>
        </div>
       </div>
     </div>

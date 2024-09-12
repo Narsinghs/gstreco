@@ -79,7 +79,7 @@ export default function HowItWorks() {
               Reconciliation
             </h3>
             <p className="text-lg">
-              Our experts carefully match your purchase and sales data against GST returns to identify discrepancies.
+              Our Product carefully match your purchase and sales data against GST returns to identify discrepancies.
             </p>
           </div>
           <div className="md:w-1/2">
