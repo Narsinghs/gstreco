@@ -19,6 +19,7 @@ import GSTReconciliationProduct from './components/GSTReconciliationProduct';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RequestDemoPage from "./components/RequestDemoPage";
+import About from "./components/About";
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
             <Route path="/gst-reconciliation" element={<GSTReconciliationProduct />} />
             {/* <Route path="/GSTReconciliationPage" element={<GSTReconciliationPage />} /> */}
             <Route path="/request-demo" element={<RequestDemoPage />} />
+            <Route path="/about-us" element={<About />} />
             
              </Routes>
         </div>

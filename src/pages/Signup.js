@@ -17,22 +17,29 @@ export default function Signup() {
   const [lastName, setLastName] = useState("");
   const [mobile, setMobile] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [touched, setTouched] = useState({
+    email: false,
+    password: false,
+    firstName: false,
+    lastName: false,
+    mobile: false,
+  });
   const [errors, setErrors] = useState({});
 
   // Function to validate the form fields
   const validateForm = () => {
-    const emailValid = /\S+@\S+\.\S+/.test(email); // Basic email validation
+    const emailValid = /\S+@\S+\.\S+/.test(email);
     const passwordValid = password.length > 0;
     const firstNameValid = firstName.length > 0;
     const lastNameValid = lastName.length > 0;
     const mobileValid = /^\d{10}$/.test(mobile);
 
     setErrors({
-      email: emailValid ? "" : "Email is invalid.",
-      password: passwordValid ? "" : "Password is required.",
-      firstName: firstNameValid ? "" : "First name is required.",
-      lastName: lastNameValid ? "" : "Last name is required.",
-      mobile: mobileValid ? "" : "Mobile number must be exactly 10 digits."
+      email: touched.email && !emailValid ? "Email is invalid." : "",
+      password: touched.password && !passwordValid ? "Password is required." : "",
+      firstName: touched.firstName && !firstNameValid ? "First name is required." : "",
+      lastName: touched.lastName && !lastNameValid ? "Last name is required." : "",
+      mobile: touched.mobile && !mobileValid ? "Mobile number must be exactly 10 digits." : "",
     });
 
     setIsButtonDisabled(!(emailValid && passwordValid && firstNameValid && lastNameValid && mobileValid));
@@ -40,7 +47,31 @@ export default function Signup() {
 
   useEffect(() => {
     validateForm();
-  }, [email, password, firstName, lastName, mobile]);
+  }, [email, password, firstName, lastName, mobile, touched]);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      case "firstName":
+        setFirstName(value);
+        break;
+      case "lastName":
+        setLastName(value);
+        break;
+      case "mobile":
+        setMobile(value);
+        break;
+      default:
+        break;
+    }
+    setTouched((prev) => ({ ...prev, [name]: true }));
+  };
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -178,11 +209,13 @@ export default function Signup() {
                     type="text"
                     id="firstName"
                     name="firstName"
+                    placeholder="Enter your first name"
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    onChange={handleInputChange}
+                    onBlur={() => setTouched((prev) => ({ ...prev, firstName: true }))}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
                   />
-                  {errors.firstName && <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>}
+                  {errors.firstName && touched.firstName && <p className="text-red-600 text-xs mt-1">{errors.firstName}</p>}
                 </div>
                 <div>
                   <label
@@ -195,11 +228,13 @@ export default function Signup() {
                     type="text"
                     id="lastName"
                     name="lastName"
+                    placeholder="Enter your last name"
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={handleInputChange}
+                    onBlur={() => setTouched((prev) => ({ ...prev, lastName: true }))}
                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
                   />
-                  {errors.lastName && <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>}
+                  {errors.lastName && touched.lastName && <p className="text-red-600 text-xs mt-1">{errors.lastName}</p>}
                 </div>
               </div>
               <div>
@@ -213,11 +248,13 @@ export default function Signup() {
                   type="email"
                   id="email"
                   name="email"
+                  placeholder="Enter your Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={handleInputChange}
+                  onBlur={() => setTouched((prev) => ({ ...prev, email: true }))}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
                 />
-                {errors.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
+                {errors.email && touched.email && <p className="text-red-600 text-xs mt-1">{errors.email}</p>}
               </div>
               <div>
                 <label
@@ -230,14 +267,16 @@ export default function Signup() {
                   type="text"
                   id="mobile"
                   name="mobile"
+                  placeholder="Enter your 10digits number"
                   value={mobile}
-                  onChange={(e) => setMobile(e.target.value)}
+                  onChange={handleInputChange}
+                  onBlur={() => setTouched((prev) => ({ ...prev, mobile: true }))}
                   maxLength={10}
                   pattern="\d{10}"
-                  inputMode="numeric" // Ensure only numeric input
+                  inputMode="numeric"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
                 />
-                {errors.mobile && <p className="text-red-600 text-xs mt-1">{errors.mobile}</p>}
+                {errors.mobile && touched.mobile && <p className="text-red-600 text-xs mt-1">{errors.mobile}</p>}
               </div>
               <div>
                 <label
@@ -251,10 +290,12 @@ export default function Signup() {
                   id="password"
                   name="password"
                   value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  onChange={handleInputChange}
+                  onBlur={() => setTouched((prev) => ({ ...prev, password: true }))}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 text-sm focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50"
                 />
                 {password && <PasswordStrengthIndicator password={password} />}
+                {errors.password && touched.password && <p className="text-red-600 text-xs mt-1">{errors.password}</p>}
               </div>
               <div className="flex items-center mt-4">
                 <input

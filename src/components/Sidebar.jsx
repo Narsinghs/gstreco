@@ -8,7 +8,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { LuUserCog } from "react-icons/lu";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiHelpCircle } from "react-icons/bi";
-import { CiCalculator2 } from "react-icons/ci";
+import { FaSquarespace } from "react-icons/fa";
+import { AiFillDollarCircle } from "react-icons/ai";
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -88,7 +89,7 @@ export default function Sidebar() {
               to="/Gst_Form"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/Gst_Form')}`}
             >
-              <CiCalculator2 className="text-xl" />
+              < FaSquarespace className="text-xl" />
               {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
             </Link>
             <Link

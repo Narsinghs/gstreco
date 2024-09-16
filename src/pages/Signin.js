@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Image from "../assets/Login.gif";
-import { FaMicrosoft, FaGoogle } from "react-icons/fa";
+import { FaMicrosoft, FaGoogle, FaEye, FaEyeSlash } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, OAuthProvider, sendPasswordResetEmail } from "firebase/auth";
@@ -14,6 +14,7 @@ export default function Signin() {
   const [password, setPassword] = useState("");
   const [resetEmail, setResetEmail] = useState("");
   const [isResettingPassword, setIsResettingPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -192,12 +193,12 @@ export default function Signin() {
                       required
                     />
                   </div>
-                  <div>
+                  <div className="relative">
                     <label htmlFor="password" className="block text-sm font-medium text-gray-700">
                       Password
                     </label>
                     <input
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       id="password"
                       name="password"
                       value={password}
@@ -206,6 +207,17 @@ export default function Signin() {
                       placeholder="Enter your password"
                       required
                     />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword(!showPassword)}
+                      className="absolute inset-y-0 right-0 px-3 mt-5 flex items-center"
+                    >
+                      {showPassword ? (
+                        <FaEyeSlash className="w-5 h-5 text-gray-600" />
+                      ) : (
+                        <FaEye className="w-5 h-5 text-gray-600" />
+                      )}
+                    </button>
                   </div>
                   <div className="flex justify-between items-center">
                     <div className="flex items-center">
