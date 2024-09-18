@@ -146,7 +146,7 @@ export default function Signup() {
         toast.success("User logged in successfully", {
           position: "top-center",
         });
-        window.location.href = "/acc_how_to_use"; 
+        window.location.href = "/acc_profile"; 
       }
     } catch (error) {
       console.log(error.message);
@@ -179,7 +179,7 @@ export default function Signup() {
         toast.success("User logged in successfully", {
           position: "top-center",
         });
-        window.location.href = "/acc_how_to_use";
+        window.location.href = "/acc_profile";
       }
     } catch (error) {
       console.error("Microsoft Login Error:", error.message);

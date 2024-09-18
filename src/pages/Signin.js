@@ -37,7 +37,7 @@ export default function Signin() {
       toast.success("User logged in successfully", {
         position: "top-center",
       });
-      window.location.href = "/acc_how_to_use";
+      window.location.href = "/acc_profile";
     } catch (error) {
       console.error("Sign-in Error:", error.message);
       toast.error("Failed to sign in. Please check your email and password.", {
@@ -69,7 +69,7 @@ export default function Signin() {
         toast.success("User logged in successfully", {
           position: "top-center",
         });
-        window.location.href = "/acc_how_to_use";
+        window.location.href = "/acc_profile";
       }
     } catch (error) {
       console.error("Google Login Error:", error.message);
@@ -102,7 +102,7 @@ export default function Signin() {
         toast.success("User logged in successfully", {
           position: "top-center",
         });
-        window.location.href = "/acc_how_to_use";
+        window.location.href = "/acc_profile";
       }
     } catch (error) {
       console.error("Microsoft Login Error:", error.message);

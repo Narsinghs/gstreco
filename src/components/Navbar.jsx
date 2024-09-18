@@ -33,7 +33,16 @@ export default function Navbar() {
     }, 0); // Timeout to allow the page to load before scrolling
     closeMenu();
   };
-
+  const handleScrollTocontact = () => {
+    navigate('/');
+    setTimeout(() => {
+      scroller.scrollTo('contact', {
+        smooth: true,
+        duration: 500,
+      });
+    }, 0); // Timeout to allow the page to load before scrolling
+    closeMenu();
+  };
   return (
     <div className="bg-[#f8f9fa] p-4 transform scale-105 relative z-10" style={{ backgroundColor: "#f8f9fa" }}>
       <div className="max-w-[1400px] mx-auto flex justify-between items-center relative z-20">
@@ -87,6 +96,14 @@ export default function Navbar() {
               <RouterLink to="/pricing">
                 <button className="hover:font-bold">Pricing</button>
               </RouterLink>
+            </li>
+            <li>
+              <button
+                onClick={handleScrollTocontact}
+                className="hover:font-bold"
+              >
+                Contact Us
+              </button>
             </li>
           </ul>
         </div>

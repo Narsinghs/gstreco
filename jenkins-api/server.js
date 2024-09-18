@@ -39,7 +39,7 @@ app.post('/api/runJenkinsJob', async (req, res) => {
 
   // Define Jenkins job URLs based on form type
   const jenkinsUrl = formType === "xero"
-    ? 'https://jenkins.theoutsourcepro.com.au/job/Search/buildWithParameters'
+    ? 'https://jenkins.theoutsourcepro.com.au/job/Xero/buildWithParameters'
     : formType === "myob"
     ? 'https://jenkins.theoutsourcepro.com.au/job/myob-job/buildWithParameters'
     : null;

@@ -12,16 +12,18 @@ export default function Gst_Form() {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedForm, setSelectedForm] = useState("xero");
   const [showPassword, setShowPassword] = useState({});
+  const [showSecurityAnswers, setShowSecurityAnswers] = useState({});
+  const [idErrors, setIdErrors] = useState({});
 
   const xeroFields = [
     { name: "ATO_Id", hint: "Enter Xero username" },
     { name: "Client_Name", hint: "Enter client name" },
     { name: "From", hint: "Start date of the period" },
     { name: "To", hint: "End date of the period" },
-    { name: "July_September_Quarter", hint: "Jul 2022 – Sep 2022 Business activity statement" },
-    { name: "October_December_Quarter", hint: "Oct 2022 – Dec 2022 Business activity statement" },
-    { name: "January_March_Quarter", hint: "Jan 2023 – Mar 2023 Business activity statement" },
-    { name: "April_June_Quarter", hint: "Apr 2023 – Jun 2023 Business activity statement" },
+    { name: "July_September_Quarter", hint: "Jul 2022 Sep 2022 Business activity statement" },
+    { name: "October_December_Quarter", hint: "Oct 2022 Dec 2022 Business activity statement" },
+    { name: "January_March_Quarter", hint: "Jan 2023 Mar 2023 Business activity statement" },
+    { name: "April_June_Quarter", hint: "Apr 2023 Jun 2023 Business activity statement" },
     { name: "XERO_Id", hint: "Enter your Xero Id" },
     { name: "XERO_Password", hint: "Enter your password" },
     { name: "Security_Question_1", hint: "First security question" },
@@ -35,7 +37,7 @@ export default function Gst_Form() {
   ];
 
   const myobFields = [
-    { name: "ATO_Id", hint: "Enter Myob username" },
+    { name: "ATO_Id", hint: "Enter Myob username or email" },
     { name: "Client_Name", hint: "Enter client name" },
     { name: "From", hint: "Start date of the period" },
     { name: "To", hint: "End date of the period" },
@@ -46,29 +48,84 @@ export default function Gst_Form() {
     { name: "Myob_Id", hint: "Enter your username" },
     { name: "Myob_Password", hint: "Enter your password" },
     { name: "Security_Question_1", hint: "First security question for Myob" },
-    { name: "Security_Answer_1", hint: "Answer to the first security question for Myob" },
+    { name: "Security_Answer_1", hint: "Answer to the first security question" },
     { name: "Security_Question_2", hint: "Second security question for Myob" },
-    { name: "Security_Answer_2", hint: "Answer to the second security question for Myob" },
+    { name: "Security_Answer_2", hint: "Answer to the second security question" },
     { name: "Security_Question_3", hint: "Third security question for Myob" },
-    { name: "Security_Answer_3", hint: "Answer to the third security question for Myob" },
+    { name: "Security_Answer_3", hint: "Answer to the third security question" },
     { name: "User_Name", hint: "Username for laptop" },
     { name: "Email_Id", hint: "Recipient of the sender" },
   ];
 
   useEffect(() => {
     const allFieldsFilled = Object.values(formData).every(value => value !== '');
-    setIsFormValid(allFieldsFilled);
+    const emailValid = validateEmail(formData.Email_Id);
+    const idValid = validateIdFields();
+
+    setIsFormValid(allFieldsFilled && emailValid && idValid);
   }, [formData]);
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
+
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [name]: value
     });
+
+    // Clear any ID error when user types
+    if (idErrors[name]) {
+      setIdErrors(prev => ({ ...prev, [name]: '' }));
+    }
+
+    // Hide password and security answer fields when switching inputs
+    if (name.includes("Password") || name.includes("Security_Answer")) {
+      const newShowPassword = {};
+      const newShowSecurityAnswers = {};
+
+      // Hide all password and security answer fields
+      for (const field of Object.keys(formData)) {
+        if (field.includes("Password")) {
+          newShowPassword[field] = false;
+        }
+        if (field.includes("Security_Answer")) {
+          newShowSecurityAnswers[field] = false;
+        }
+      }
+
+      setShowPassword(newShowPassword);
+      setShowSecurityAnswers(newShowSecurityAnswers);
+    }
+  };
+
+  const validateEmail = (email) => {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
+  const validateIdFields = () => {
+    const idFields = ['ATO_Id', 'XERO_Id', 'Myob_Id', 'Email_Id'];
+    let isValid = true;
+    const newIdErrors = {};
+
+    for (let field of idFields) {
+      if (formData[field] && !validateEmail(formData[field])) {
+        newIdErrors[field] = `Please enter a valid email for ${field}.`;
+        isValid = false;
+      }
+    }
+
+    setIdErrors(newIdErrors);
+    return isValid;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateEmail(formData.Email_Id)) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
     toast.info("Submitting...", { autoClose: false });
     setIsLoading(true);
 
@@ -111,6 +168,9 @@ export default function Gst_Form() {
   const handleReset = () => {
     setFormData({});
     setSubmissionStatus("");
+    setIdErrors({});
+    setShowPassword({});
+    setShowSecurityAnswers({});
   };
 
   const getFields = () => {
@@ -130,18 +190,25 @@ export default function Gst_Form() {
     }));
   };
 
+  const handleSecurityAnswerVisibility = (fieldName) => {
+    setShowSecurityAnswers(prevState => ({
+      ...prevState,
+      [fieldName]: !prevState[fieldName]
+    }));
+  };
+
   const backgroundStyle = {
     backgroundImage: `url(${backgroundImage})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   };
+  
   const formStyle = {
-    backgroundColor: 'rgba(255, 255, 255, 0.95)', // Adjust opacity here (0.8 means 80% opacity)
+    backgroundColor: 'rgba(255, 255, 255, 0.95)',
   };
 
   const labelStyle = {
-    fontWeight: 'bold', // Make label text bold
-    // marginBottom: '0.5rem' // Spacing below the label
+    fontWeight: 'bold',
   };
 
   return (
@@ -163,7 +230,7 @@ export default function Gst_Form() {
                 checked={selectedForm === "xero"}
                 onChange={() => {
                   setSelectedForm("xero");
-                  setFormData({});
+                  handleReset();
                 }}
                 className="mr-2 text-black"
               />
@@ -178,7 +245,7 @@ export default function Gst_Form() {
                 checked={selectedForm === "myob"}
                 onChange={() => {
                   setSelectedForm("myob");
-                  setFormData({});
+                  handleReset();
                 }}
                 className="mr-2"
               />
@@ -216,7 +283,8 @@ export default function Gst_Form() {
                       />
                       <button
                         type="button"
-                        onClick={() => handlePasswordVisibility(fieldObj.name)}
+                        onMouseEnter={() => handlePasswordVisibility(fieldObj.name)}
+                        onMouseLeave={() => handlePasswordVisibility(fieldObj.name)}
                         className="absolute inset-y-0 right-0 px-3 flex items-center"
                       >
                         {showPassword[fieldObj.name] ? (
@@ -226,16 +294,45 @@ export default function Gst_Form() {
                         )}
                       </button>
                     </div>
+                  ) : fieldObj.name.toLowerCase().includes("security_answer") ? (
+                    <div className="relative">
+                      <input
+                        type={showSecurityAnswers[fieldObj.name] ? "text" : "password"}
+                        name={fieldObj.name}
+                        value={formData[fieldObj.name] || ''}
+                        onChange={handleChange}
+                        placeholder={fieldObj.hint}
+                        className="p-2 block w-full border border-gray-400 rounded-md"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onMouseEnter={() => handleSecurityAnswerVisibility(fieldObj.name)}
+                        onMouseLeave={() => handleSecurityAnswerVisibility(fieldObj.name)}
+                        className="absolute inset-y-0 right-0 px-3 flex items-center"
+                      >
+                        {showSecurityAnswers[fieldObj.name] ? (
+                          <FaEye className="w-5 h-5 text-gray-600" />
+                        ) : (
+                          <FaEyeSlash className="w-5 h-5 text-gray-600" />
+                        )}
+                      </button>
+                    </div>
                   ) : (
-                    <input
-                      type="text"
-                      name={fieldObj.name}
-                      value={formData[fieldObj.name] || ''}
-                      onChange={handleChange}
-                      placeholder={fieldObj.hint}
-                      className="p-2 block w-full border border-gray-400 rounded-md"
-                      required
-                    />
+                    <div className="flex flex-col">
+                      <input
+                        type="text"
+                        name={fieldObj.name}
+                        value={formData[fieldObj.name] || ''}
+                        onChange={handleChange}
+                        placeholder={fieldObj.hint}
+                        className="p-2 block w-full border border-gray-400 rounded-md"
+                        required
+                      />
+                      {idErrors[fieldObj.name] && (
+                        <span className="text-red-500 text-sm mt-1">{idErrors[fieldObj.name]}</span>
+                      )}
+                    </div>
                   )}
                 </div>
               ))}

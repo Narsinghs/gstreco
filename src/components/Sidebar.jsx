@@ -9,7 +9,7 @@ import { LuUserCog } from "react-icons/lu";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiHelpCircle } from "react-icons/bi";
 import { FaSquarespace } from "react-icons/fa";
-import { AiFillDollarCircle } from "react-icons/ai";
+
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -78,12 +78,12 @@ export default function Sidebar() {
 
           {/* Links */}
           <div className="flex flex-col space-y-2 mb-4">
-            <Link
-              to="/acc_how_to_use"
-              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_how_to_use')}`}
+          <Link
+              to="/acc_profile"
+              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_profile')}`}
             >
-              <HiViewGrid className="text-xl" />
-              {isSidebarOpen && <span className="ml-2">How to use</span>}
+              <LuUserCog className="text-xl" />
+              {isSidebarOpen && <span className="ml-2">Profile</span>}
             </Link>
             <Link
               to="/Gst_Form"
@@ -93,12 +93,14 @@ export default function Sidebar() {
               {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
             </Link>
             <Link
-              to="/acc_profile"
-              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_profile')}`}
+              to="/acc_how_to_use"
+              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_how_to_use')}`}
             >
-              <LuUserCog className="text-xl" />
-              {isSidebarOpen && <span className="ml-2">Profile</span>}
+              <HiViewGrid className="text-xl" />
+              {isSidebarOpen && <span className="ml-2">How to use</span>}
             </Link>
+           
+           
             <Link
               to="/HelpPage"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/help')}`}
