@@ -55,7 +55,6 @@ app.post('/api/runJenkinsJob', async (req, res) => {
         'Authorization': 'Basic ' + Buffer.from(`${JENKINS_USERNAME}:${JENKINS_API_TOKEN}`).toString('base64')
       }
     });
-
     console.log('Jenkins response:', response.status, response.data);
 
     if (response.status === 201) {
