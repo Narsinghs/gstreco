@@ -41,8 +41,8 @@
   white-space: nowrap; 
   overflow: hidden;
   width: 0; /* Ensure initial width is 0 */
-  animation: typing 3s steps(30) infinite,
-             blink 0.75s step-end infinite;
+  animation: typing 5s steps(30) infinite,
+             blink 1s step-end infinite;
 }
 
 /* Apply the font to the body */

@@ -8,7 +8,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { LuUserCog } from "react-icons/lu";
 import { AiOutlineLogout } from "react-icons/ai";
 import { BiHelpCircle } from "react-icons/bi";
-import { CiCalculator2 } from "react-icons/ci";
+import { FaSquarespace } from "react-icons/fa";
+
 
 export default function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -77,39 +78,7 @@ export default function Sidebar() {
 
           {/* Links */}
           <div className="flex flex-col space-y-2 mb-4">
-            <Link
-              to="/acc_how_to_use"
-              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_how_to_use')}`}
-            >
-              <HiViewGrid className="text-xl" />
-              {isSidebarOpen && <span className="ml-2">How to use</span>}
-            </Link>
-            <div
-              className={`flex flex-col space-y-2 mb-4 ${isSidebarOpen ? "" : "justify-center"}`}
-            >
-              <button
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation')}`}
-              >
-                <CiCalculator2 className="text-xl " />
-                {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
-              </button>
-              <div className={`flex flex-col pl-6 ${isSidebarOpen ? (isDropdownOpen ? "block" : "hidden") : "hidden"}`}>
-                <Link
-                  to="/Gst_Form"
-                  className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation/myob')}`}
-                >
-                  <span className="ml-2">MYOB</span>
-                </Link>
-                <Link
-                  to="/gst_reconciliation/xero"
-                  className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/gst_reconciliation/xero')}`}
-                >
-                  <span className="ml-2">Xero</span>
-                </Link>
-              </div>
-            </div>
-            <Link
+          <Link
               to="/acc_profile"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_profile')}`}
             >
@@ -117,7 +86,23 @@ export default function Sidebar() {
               {isSidebarOpen && <span className="ml-2">Profile</span>}
             </Link>
             <Link
-              to="/help"
+              to="/Gst_Form"
+              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/Gst_Form')}`}
+            >
+              < FaSquarespace className="text-xl" />
+              {isSidebarOpen && <span className="ml-2">GST Reconciliation</span>}
+            </Link>
+            <Link
+              to="/acc_how_to_use"
+              className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/acc_how_to_use')}`}
+            >
+              <HiViewGrid className="text-xl" />
+              {isSidebarOpen && <span className="ml-2">How to use</span>}
+            </Link>
+           
+           
+            <Link
+              to="/HelpPage"
               className={`flex items-center p-2 rounded-md transition-colors hover:bg-gray-700 ${isActive('/help')}`}
             >
               <BiHelpCircle className="text-xl" />
